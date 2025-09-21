@@ -3,6 +3,7 @@ This is a mini git clone i wanted to work on as a resume project.
 
 
 # Project Structure
+```
 minigit/
 ├── src/
 │   └── MiniGit.java        # Everything in one file to start!
@@ -11,6 +12,7 @@ minigit/
 │   └── HEAD                # Current commit hash
 └── README.md
 
+```
 
 Commands so far:
 - minigit init
