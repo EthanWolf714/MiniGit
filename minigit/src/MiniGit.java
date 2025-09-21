@@ -1,11 +1,13 @@
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.security.MessageDigest;
 import java.text.NumberFormat.Style;
+import java.time.Instant;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
 
@@ -116,6 +118,73 @@ public class MiniGit {
 
 
 
+        }
+
+        if(args[0].equals("commit")){
+            if(args.length < 2){
+                System.out.println("Please provide a commit message");
+                return;
+            }
+
+            File indexFile = new File(".minigit/index");
+
+            //check if file exists
+            if(!indexFile.exists()){
+                System.out.println("nothing to commit");
+                return;
+            }
+
+
+            String indexContent = Files.readString(Paths.get(".minigit/index"));
+            //check if file is empty
+            if(indexContent.trim().isEmpty()){
+                System.out.println("Nothing to commit");
+                return;
+            }
+
+            //build commit string
+            Instant timstamp = Instant.now();
+            String commitString = args[1] + timstamp + indexContent;
+
+            byte[] commitBytes = commitString.getBytes();
+
+            MessageDigest md;
+            try {
+                md = MessageDigest.getInstance("SHA-1");
+            } catch (NoSuchAlgorithmException e) {
+                System.out.println("SHA-1 algorithm not found");
+                return;
+            }
+            byte[] hash = md.digest(commitBytes);
+
+            String hashedCommitString;
+            try (Formatter formatter = new Formatter()) {
+                //loop through each byte in hash and convert to hexedecimal
+                for(byte b : hash){
+                    formatter.format("%02x", b);
+                }
+                //convert hex to string
+                hashedCommitString = formatter.toString();
+            }
+
+
+            File commitFile = new File(".minigit/objects/" + hashedCommitString);
+            
+            Path commitPath = Paths.get(".minigit/objects/" + hashedCommitString);
+            Files.write(commitPath,commitBytes );
+
+            System.out.println("Committed  " + hashedCommitString);
+            
+
+            //overwrite the head file 
+            Files.write(Paths.get(".minigit/index"), hashedCommitString.getBytes());
+
+
+            //clear staging area
+            PrintWriter writer = new PrintWriter(".minigit/index");
+            writer.print("");
+            writer.close();
+            
         }
 		
 	}
