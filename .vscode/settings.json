@@ -1,6 +1,8 @@
 {
     "java.project.referencedLibraries": [
-        "lib/**/*.jar",
-        "minigit/lib/junit-platform-console-standalone-1.13.0-M3.jar"
+        "c:\\Users\\Emwol\\Documents\\MiniGit\\minigit\\lib\\junit-platform-console-standalone-1.13.0-M3.jar"
+    ],
+    "java.project.sourcePaths": [
+        "minigit\\src"
     ]
 }

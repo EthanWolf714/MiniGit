@@ -7,11 +7,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.security.MessageDigest;
-import java.text.NumberFormat.Style;
 import java.time.Instant;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
-import java.util.Scanner;
+
 
 public class MiniGit {
     public static void main(String[] args) throws IOException {
