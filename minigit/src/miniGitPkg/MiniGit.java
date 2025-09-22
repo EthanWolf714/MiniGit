@@ -168,8 +168,10 @@ public class MiniGit {
             }
 
             //build commit string
-            Instant timstamp = Instant.now();
-              String commitString = message + timstamp + indexContent;
+            Instant timestamp = Instant.now();
+            String commitString = "MESSAGE:" + message + "\n" +
+                     "TIMESTAMP:" + timestamp + "\n" + 
+                     "FILES:\n" + indexContent;
 
             byte[] commitBytes = commitString.getBytes();
 
@@ -212,21 +214,15 @@ public class MiniGit {
     }
 
     public static void log() throws IOException{
-        //get all commit messages from HEAD or index
-        Path headPath = Paths.get(".minitig/HEAD");
-        try(Scanner scanner = new Scanner(headPath)){
-            //read file line by line
-            while(scanner.hasNextLine()){
-                String line =  scanner.nextLine();
-                System.out.println(line);
-            }
-        }catch(Exception e){
-            System.err.println("Error reading file: " + e.getMessage());
-            e.printStackTrace();
-        }
+        //Read HEAD to get current commit hash
+        String currentCommit = Files.readString(Paths.get(".minigit/HEAD"));
+        //read commit objects
+        String commitData = Files.readString(Paths.get(".minigit/objects/" + currentCommit));
 
-
-
+        // Parse and print the commit info
+        System.out.println("Commit: " + currentCommit);
+        System.out.println("Data: " + commitData);
+    
 
     }
 
