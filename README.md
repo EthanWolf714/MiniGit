@@ -19,3 +19,8 @@ Commands so far:
 - minigit init
 - minigit add <file>
 - minigit commit "message"
+- minigit log
+
+# Test Run 
+
+<img width="817" height="304" alt="Screenshot 2025-09-21 222039" src="https://github.com/user-attachments/assets/40fc5847-b9f4-43af-8181-cba7149bce6e" />
