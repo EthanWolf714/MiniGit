@@ -11,6 +11,7 @@ import java.text.NumberFormat.Style;
 import java.time.Instant;
 import java.security.NoSuchAlgorithmException;
 import java.util.Formatter;
+import java.util.Scanner;
 
 public class MiniGit {
     public static void main(String[] args) throws IOException {
@@ -201,7 +202,7 @@ public class MiniGit {
             
 
             //overwrite the head file 
-            Files.write(Paths.get(".minigit/index"), hashedCommitString.getBytes());
+            Files.write(Paths.get(".minigit/HEAD"), hashedCommitString.getBytes());
 
 
             //clear staging area
@@ -210,7 +211,22 @@ public class MiniGit {
             writer.close();
     }
 
-    public static void log(){
+    public static void log() throws IOException{
+        //get all commit messages from HEAD or index
+        Path headPath = Paths.get(".minitig/HEAD");
+        try(Scanner scanner = new Scanner(headPath)){
+            //read file line by line
+            while(scanner.hasNextLine()){
+                String line =  scanner.nextLine();
+                System.out.println(line);
+            }
+        }catch(Exception e){
+            System.err.println("Error reading file: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+
+
 
     }
 

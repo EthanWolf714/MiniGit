@@ -55,6 +55,16 @@ public class MiniGitTest {
         
     }
 
+    @Test
+    void testCommit(){
+
+    }
+
+    @Test 
+    void log(){
+        
+    }
+
     @AfterEach
     void tearDown() throws IOException{
         try {
