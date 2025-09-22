@@ -96,7 +96,7 @@ public class MiniGit {
 
             }
     }
-
+   
     public static void add(String filename) throws IOException{
 
             String fileName = filename;
