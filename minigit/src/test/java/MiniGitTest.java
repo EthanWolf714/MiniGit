@@ -76,8 +76,20 @@ public class MiniGitTest {
     }
 
     @Test 
-    void log(){
+    void log() throws IOException{
+        MiniGit.init();
+        Files.write(Paths.get("test.txt"), "hello world".getBytes());
+        System.out.println("Created test file: " + Files.exists(Paths.get("test.txt")));
 
+        MiniGit.add("test.txt");
+
+        MiniGit.commit("commit test file");
+
+        MiniGit.log();
+
+        deleteDirectory(Paths.get(".minigit"));
+
+        Files.deleteIfExists(Paths.get("test.txt"));
     }
 
     @AfterEach
