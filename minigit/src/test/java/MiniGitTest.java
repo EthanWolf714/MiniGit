@@ -56,13 +56,28 @@ public class MiniGitTest {
     }
 
     @Test
-    void testCommit(){
+    void testCommit() throws IOException{
+        MiniGit.init();
+        Files.write(Paths.get("test.txt"), "hello world".getBytes());
+        System.out.println("Created test file: " + Files.exists(Paths.get("test.txt")));
 
+        MiniGit.add("test.txt");
+
+        MiniGit.commit("commit test file");
+
+        String indexContext = Files.readString(Paths.get(".minigit/index"));
+
+        assertTrue(indexContext.trim().isEmpty());
+
+        deleteDirectory(Paths.get(".minigit"));
+
+        Files.deleteIfExists(Paths.get("test.txt"));
+        
     }
 
     @Test 
     void log(){
-        
+
     }
 
     @AfterEach
