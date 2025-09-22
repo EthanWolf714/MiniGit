@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "minigit/lib/junit-platform-console-standalone-1.13.0-M3.jar"
+    ]
+}

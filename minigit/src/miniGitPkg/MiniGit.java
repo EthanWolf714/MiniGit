@@ -1,3 +1,4 @@
+package miniGitPkg;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,14 +15,49 @@ import java.util.Formatter;
 public class MiniGit {
     public static void main(String[] args) throws IOException {
 
-
-        if (args.length == 0){
+        if (args.length == 0) {
             System.out.println("Please specify a command");
             return;
         }
 
-        if(args[0].equals("init")){
-            String initDirectoryPath = ".minigit";
+        switch (args[0]) {
+            case "init":
+                init();
+                break;
+            case "add":
+                if (args.length < 2) {
+                    System.out.println("Please provide a file to add");
+                    break;
+                }
+                add(args[1]);
+                break;
+            case "commit":
+                if (args.length < 2) {
+                    System.out.println("Please provide a commit message");
+                    break;
+                }
+                commit(args[1]);
+                break;
+            case "log":
+                log();
+                break;
+            default:
+                System.out.println("Unknown command: " + args[0]);
+        }
+
+		
+	}
+
+    //method for test purposes
+    public static void init(Path baseDir) throws IOException {
+        Path minigitDir = baseDir.resolve(".minigit");
+        Files.createDirectories(minigitDir);
+        Files.createDirectories(minigitDir.resolve("objects"));
+        Files.createFile(minigitDir.resolve("HEAD"));
+    }
+
+    public static void init() throws IOException{
+         String initDirectoryPath = ".minigit";
             // Create a File object representing the directory
             File directory = new File(initDirectoryPath);
 
@@ -59,15 +95,11 @@ public class MiniGit {
                 }
 
             }
-        }
+    }
 
-        if(args[0].equals("add") ){
-            if(args.length < 2){
-                System.out.println("Please provide a file to add");
-                return;
-            }
+    public static void add(String filename) throws IOException{
 
-            String fileName = args[1];
+            String fileName = filename;
             //create file
             File file = new File(fileName);
             if(!file.exists()){
@@ -115,17 +147,9 @@ public class MiniGit {
 
             //confirmation message.
             System.out.println("Added " + fileName + " to staging area");
+    }
 
-
-
-        }
-
-        if(args[0].equals("commit")){
-            if(args.length < 2){
-                System.out.println("Please provide a commit message");
-                return;
-            }
-
+    public static void commit(String message) throws IOException{
             File indexFile = new File(".minigit/index");
 
             //check if file exists
@@ -144,7 +168,7 @@ public class MiniGit {
 
             //build commit string
             Instant timstamp = Instant.now();
-            String commitString = args[1] + timstamp + indexContent;
+              String commitString = message + timstamp + indexContent;
 
             byte[] commitBytes = commitString.getBytes();
 
@@ -184,10 +208,11 @@ public class MiniGit {
             PrintWriter writer = new PrintWriter(".minigit/index");
             writer.print("");
             writer.close();
-            
-        }
-		
-	}
+    }
+
+    public static void log(){
+
+    }
 
 
 
